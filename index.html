@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bomba e Balão</title>
+    <style>
+        #container {
+            position: relative;
+            text-align: center;
+        }
+
+        #bomba {
+            cursor: pointer;
+            position: absolute;
+            top: 300px; /* Distância do topo */
+            left: 320px; /* Distância da esquerda */
+            width: 200px; /* Ajustando o tamanho da bomba */
+        }
+
+        #balao {
+            width: 100px;
+            height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <!-- Título -->
+        <h2>Clique na bomba para encher o balão</h2>
+        <!-- Imagem da bomba -->
+        <img id="bomba" src="bomba1.jpg" alt="Bomba">
+        <!-- Imagem do balão (inicialmente oculta) -->
+        <img id="balao" src="balao.png" alt="Balão" style="display:none;">
+    </div>
+
+    <script>
+        // Variáveis para o tamanho inicial do balão e os incrementos de largura e altura
+        var tamanhoInicial = 100;
+        var incrementoLargura = 10;
+        var incrementoAltura = 15;
+        var cliques = 0; // Contador de cliques na bomba
+
+        // Evento de clique na bomba
+        document.getElementById("bomba").addEventListener("click", function() {
+            // Obtém a referência do elemento do balão
+            var balao = document.getElementById("balao");
+            // Exibe o balão
+            balao.style.display = "inline";
+            // Obtém a largura e altura atuais do balão
+            var larguraAtual = balao.offsetWidth;
+            var alturaAtual = balao.offsetHeight;
+
+            // Se o balão estiver completamente esvaziado (sem largura ou altura), define o tamanho inicial
+            if (larguraAtual === 0 || alturaAtual === 0) {
+                larguraAtual = tamanhoInicial;
+                alturaAtual = tamanhoInicial;
+            }
+
+            // Incrementa a largura e altura do balão
+            larguraAtual += incrementoLargura;
+            alturaAtual += incrementoAltura;
+
+            // Define a largura e altura atualizadas do balão
+            balao.style.width = larguraAtual + "px";
+            balao.style.height = alturaAtual + "px";
+
+            // Incrementa o contador de cliques
+            cliques++;
+
+            // Se o balão atingir um tamanho máximo, estoura o balão
+            if (larguraAtual > 300 || alturaAtual > 450) {
+                // Troca a imagem do balão para a versão estourada
+                balao.src = "estourado.png";
+                // Após um segundo, oculta o balão e restaura o tamanho e a imagem originais
+                setTimeout(function() {
+                    balao.style.display = "none";
+                    balao.src = "balao.png";
+                    balao.style.width = "100px";
+                    balao.style.height = "150px";
+                    cliques = 0; // Reinicia o contador de cliques
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+
+</html>
