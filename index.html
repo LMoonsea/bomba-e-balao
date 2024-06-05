@@ -22,6 +22,7 @@
         #balao {
             width: 100px;
             height: 150px;
+            visibility: visible; /* Tornando o balão visível inicialmente */
         }
     </style>
 </head>
@@ -32,8 +33,8 @@
         <h2>Clique na bomba para encher o balão</h2>
         <!-- Imagem da bomba -->
         <img id="bomba" src="bomba1.jpg" alt="Bomba">
-        <!-- Imagem do balão (inicialmente oculta) -->
-        <img id="balao" src="balao.png" alt="Balão" style="display:none;">
+        <!-- Imagem do balão (inicialmente visível em tamanho pequeno) -->
+        <img id="balao" src="balao.png" alt="Balão">
     </div>
 
     <script>
@@ -47,17 +48,17 @@
         document.getElementById("bomba").addEventListener("click", function() {
             // Obtém a referência do elemento do balão
             var balao = document.getElementById("balao");
-            // Exibe o balão
-            balao.style.display = "inline";
             // Obtém a largura e altura atuais do balão
             var larguraAtual = balao.offsetWidth;
             var alturaAtual = balao.offsetHeight;
 
-            // Se o balão estiver completamente esvaziado (sem largura ou altura), define o tamanho inicial
-            if (larguraAtual === 0 || alturaAtual === 0) {
-                larguraAtual = tamanhoInicial;
-                alturaAtual = tamanhoInicial;
+            // Se o balão atingir um tamanho máximo, retorna sem fazer nada
+            if (larguraAtual > 300 || alturaAtual > 450) {
+                return;
             }
+
+            // Exibe o balão (se ainda não estiver visível)
+            balao.style.display = "inline";
 
             // Incrementa a largura e altura do balão
             larguraAtual += incrementoLargura;
